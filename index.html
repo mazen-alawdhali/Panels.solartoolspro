@@ -482,7 +482,7 @@
                 </div>
                 <div class="input-group">
                     <label data-i18n="sunHours">ساعات ذروة الشمس:</label>
-                    <input type="text" inputmode="decimal" id="sunHoursInput" value="0">
+                    <input type="text" inputmode="decimal" id="sunHoursInput" value="6">
                 </div>
             </div>
 
@@ -782,7 +782,7 @@
             document.getElementById('capacityInput').value = 0;
             document.getElementById('batteryCountInput').value = 0;
             document.getElementById('panelInput').value = 0;
-            document.getElementById('sunHoursInput').value = 0;
+            document.getElementById('sunHoursInput').value = 6;
             document.getElementById('unitValue').value = 'wh';
             document.getElementById('voltageValue').value = '48';
             document.getElementById('efficiencyValue').value = '0.85';
@@ -857,7 +857,7 @@
             }
         });
 
-        ['capacityInput', 'batteryCountInput', 'panelInput', 'sunHoursInput'].forEach(id => {
+        ['capacityInput', 'batteryCountInput', 'panelInput'].forEach(id => {
             const el = document.getElementById(id);
             if(el) {
                 el.addEventListener('input', function() {
@@ -877,6 +877,23 @@
                 });
             }
         });
+
+        const sunInputEl = document.getElementById('sunHoursInput');
+        if(sunInputEl) {
+            sunInputEl.addEventListener('input', function() {
+                let raw = this.value.replace(/[٠-٩]/g, d => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]);
+                let val = raw.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').substring(0, 4);
+                if(val.startsWith('0') || val.startsWith('.')) {
+                    val = "";
+                } else {
+                    let num = parseFloat(val);
+                    if(!isNaN(num) && num > 9) val = "9";
+                }
+                this.value = val;
+                calculate();
+            });
+        }
+
         document.getElementById('dodValue').addEventListener('input', calculate);
 
         function saveToStorage() {
@@ -902,7 +919,7 @@
                     document.getElementById('capacityInput').value = data.cap || 0;
                     document.getElementById('batteryCountInput').value = data.count || 0;
                     document.getElementById('panelInput').value = data.panel || 0;
-                    document.getElementById('sunHoursInput').value = data.sun || 0;
+                    document.getElementById('sunHoursInput').value = (data.sun && parseFloat(data.sun) >= 1) ? data.sun : 6;
                     
                     if(data.unit) {
                         document.getElementById('unitValue').value = data.unit;
@@ -912,6 +929,8 @@
                     if(data.effKey) document.getElementById('efficiencyKey').value = data.effKey;
                     if(data.dod) document.getElementById('dodValue').value = data.dod;
                 } catch(e) { console.error("Error loading save data."); }
+            } else {
+                document.getElementById('sunHoursInput').value = 6;
             }
         }
 
