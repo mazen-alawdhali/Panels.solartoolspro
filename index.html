@@ -519,7 +519,7 @@
                         <div style="margin-bottom: 8px; color: #e2e8f0;" data-i18n="dodGuideGelVals">🔹 50%</div>
                         <div style="font-size: 10.5px; color: #94a3b8; line-height: 1.5;" data-i18n="dodGuideNote">💡ملاحظة: كلما زادت نسبة التفريغ (DoD) زادت الطاقة المطلوبة من الألواح لتعويضها، والعكس صحيح.</div>
                     </div>
-                    <input type="text" inputmode="numeric" id="dodValue" placeholder="DoD 100%" value="DoD 100%" lang="en" onfocus="formatDodInput(this, true)" onblur="formatDodInput(this, false)">
+                    <input type="text" inputmode="numeric" id="dodValue" placeholder="100%" value="100%" lang="en" onfocus="formatDodInput(this, true)" onblur="formatDodInput(this, false)">
                 </div>
             </div>
 
@@ -738,7 +738,7 @@
                 if (isNaN(val) || val <= 0 || val > 100) {
                     val = 100;
                 }
-                input.value = `DoD ${val}%`;
+                input.value = `${val}%`;
                 calculate();
             }
         }
@@ -787,7 +787,7 @@
             document.getElementById('voltageValue').value = '48';
             document.getElementById('efficiencyValue').value = '0.85';
             document.getElementById('efficiencyKey').value = 'regionSanaa';
-            document.getElementById('dodValue').value = 'DoD 100%';
+            document.getElementById('dodValue').value = '100%';
             
             const t = dict[currentLang];
             document.getElementById('unitDisplay').innerText = t['wh'];
@@ -1000,7 +1000,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=update3')
+                navigator.serviceWorker.register('sw.js?v=update4')
                     .then(registration => {
                         console.log('SW Registered successfully');
                     })
