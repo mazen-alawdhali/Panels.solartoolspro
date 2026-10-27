@@ -1168,7 +1168,7 @@
         async function getCapacitorVersion() { if (window.Capacitor && window.Capacitor.isNativePlatform()) { try { const { App } = window.Capacitor.Plugins; const info = await App.getInfo(); return parseInt(info.build) || parseInt(info.version) || 1; } catch (e) { return 1; } } return 1; }
         let globalUpdateUrl = "https://play.google.com/store/apps/details?id=com.mazen.Solar.Panels.Calc";
 
-        async function checkAppVersion() {
+        async function checkAppVersion() { if (!window.Capacitor || !window.Capacitor.isNativePlatform()) return;
             try {
                 const response = await fetch('version.json?' + new Date().getTime());
                 if (!response.ok) return;
