@@ -1173,7 +1173,7 @@
                 const response = await fetch('version.json?' + new Date().getTime());
                 if (!response.ok) return;
                 const data = await response.json();
-                const currentCode = await getCapacitorVersion(); 
+                const currentCode = await getCapacitorVersion(); alert("App Code: " + currentCode + " | JSON Code: " + data.versionCode); 
                 const updateModal = document.getElementById('updateModal');
                 if (data.versionCode && data.versionCode > currentCode) {
                     if (data.updateUrl) globalUpdateUrl = data.updateUrl;
