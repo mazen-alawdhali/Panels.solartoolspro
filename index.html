@@ -1173,9 +1173,13 @@
                 const response = await fetch('version.json?' + new Date().getTime());
                 if (!response.ok) return;
                 const data = await response.json();
-                const currentCode = await getCapacitorVersion(); if (data.versionCode && data.versionCode > currentCode) {
+                const currentCode = await getCapacitorVersion(); 
+                const updateModal = document.getElementById('updateModal');
+                if (data.versionCode && data.versionCode > currentCode) {
                     if (data.updateUrl) globalUpdateUrl = data.updateUrl;
-                    document.getElementById('updateModal').classList.add('active');
+                    if (updateModal) updateModal.classList.add('active');
+                } else {
+                    if (updateModal) updateModal.classList.remove('active');
                 }
             } catch (e) {
                 console.log("Version check skipped.");
