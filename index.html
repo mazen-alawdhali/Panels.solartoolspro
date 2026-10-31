@@ -269,19 +269,12 @@
             text-align: left;
         }
 
-        .result-box { 
-            background: rgba(3, 105, 161, 0.1); 
-            border: 1px solid rgba(3, 105, 161, 0.3); 
-            padding: 24px 16px 16px; 
-            border-radius: 16px; 
-            text-align: center; 
-            margin-top: 24px; 
-        }
+        .result-box { background: rgba(15, 23, 42, 0.7); border: 1px solid #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.25); padding: 24px 16px 16px; border-radius: 16px; text-align: center; margin-top: 24px; }
         .result-label { font-size: 13px; color: #94a3b8; margin-bottom: 8px; font-weight: 600; }
         .result-number { font-size: 46px; font-weight: bold; color: #38bdf8; line-height: 1; margin-bottom: 10px; text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3); font-family: Arial, sans-serif; }
         .result-details { font-size: 12.5px; color: #ffffff; font-weight: 600; }
         
-        .panel-note-box { margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(56, 189, 248, 0.2); font-size: 11.5px; color: #ffffff; line-height: 1.6; text-align: center; }
+        .panel-note-box { margin-top: 14px; padding: 0; font-size: 11.5px; color: #ffffff; line-height: 1.6; text-align: center; }
         .panel-note-link { color: #38bdf8; font-weight: 700; text-decoration: underline; cursor: pointer; transition: color 0.2s; }
         .panel-note-link:hover { color: #7dd3fc; }
 
@@ -644,10 +637,10 @@
                     <span style="font-size: 16px;" data-i18n="panelsWord">ألواح</span>
                 </div>
                 <div class="result-details" id="detailsOutput">إجمالي القدرة المطلوبة: 0 واط</div>
-                
-                <div class="panel-note-box" id="panelNoteBox" style="display: none;" data-i18n="panelNoteMsg">
-                    💡 <b>تنبيه هام:</b> هذه النتائج <b>تقديرية</b> لمساعدة الفنيين والمستخدمين في التخطيط المبدئي لشحن البطاريات فقط. لتصميم وتغذية الأحمال المنزلية يمكنك استخدام <a href="https://calc.solartoolspro.com" onclick="this.href='https://calc.solartoolspro.com?lang='+(localStorage.getItem('solar_panel_lang')||'ar')" target="_blank" class="panel-note-link">حاسبة الطاقة الشمسية الذكية</a>.<br><b>مع ضرورة استشارة مهندس أو فني متخصص للتركيب الميداني.</b>
-                </div>
+            </div>
+
+            <div class="panel-note-box" id="panelNoteBox" style="display: none;" data-i18n="panelNoteMsg">
+                💡 <b>تنبيه هام:</b> هذه النتائج <b>تقديرية</b> لمساعدة الفنيين والمستخدمين في التخطيط المبدئي لشحن البطاريات فقط. لتصميم وتغذية الأحمال المنزلية يمكنك استخدام <a href="https://calc.solartoolspro.com" onclick="this.href='https://calc.solartoolspro.com?lang='+(localStorage.getItem('solar_panel_lang')||'ar')" target="_blank" class="panel-note-link">حاسبة الطاقة الشمسية الذكية</a>.<br><b>مع ضرورة استشارة مهندس أو فني متخصص للتركيب الميداني.</b>
             </div>
 
             <button class="btn-reset" onclick="openModal()">
@@ -775,7 +768,7 @@
                 resultLabel: "عدد الألواح المطلوبة للشحن", 
                 panelsWord: "ألواح",
                 panelOne: "لوح واحد", panelTwo: "لوحان", panelPlural: "ألواح", panelSingle: "لوحاً",
-                totalPowerPre: "إجمالي القدرة المطلوبة:", wattWord: "واط",
+                totalPowerPre: "إجمالي القدرة المطلوبة:", wattWord: "واط", chargeCurrentMsg: "⚡ تيار الشحن المتوقع:", chargeTimeMsg: "⏱️ زمن الشحن الفعلي:", ampWord: "أمبير", hoursWord: "ساعات شمسية",
                 panelNoteMsg: '💡 <b>تنبيه هام:</b> هذه النتائج <b>تقديرية</b> لمساعدة الفنيين والمستخدمين في التخطيط المبدئي لشحن البطاريات فقط. لتصميم وتغذية الأحمال المنزلية يمكنك استخدام <a href="https://calc.solartoolspro.com" onclick="this.href=\'https://calc.solartoolspro.com?lang=\'+(localStorage.getItem(\'solar_panel_lang\')||\'ar\')" target="_blank" class="panel-note-link">حاسبة الطاقة الشمسية الذكية</a>.<br><b>مع ضرورة استشارة مهندس أو فني متخصص للتركيب الميداني.</b>',
                 resetBtn: "⚠️ تصفير البيانات", 
                 serviceAppsTitle: "🛠️ تطبيقات خدمية",
@@ -812,7 +805,7 @@
                 resultLabel: "Required Panels for Charging", 
                 panelsWord: "Panels",
                 panelOne: "Panel", panelTwo: "Panels", panelPlural: "Panels", panelSingle: "Panels",
-                totalPowerPre: "Total Required Power:", wattWord: "Watts",
+                totalPowerPre: "Total Required Power:", wattWord: "Watts", chargeCurrentMsg: "⚡ Expected Current:", chargeTimeMsg: "⏱️ Actual Charge Time:", ampWord: "Amps", hoursWord: "Sun Hours",
                 panelNoteMsg: '💡 <b>Important Note:</b> These results are <b>estimated</b> to assist technicians and users in initial battery charging planning only. For designing home loads, use the <a href="https://calc.solartoolspro.com" onclick="this.href=\'https://calc.solartoolspro.com?lang=\'+(localStorage.getItem(\'solar_panel_lang\')||\'ar\')" target="_blank" class="panel-note-link">Smart Solar Calculator</a>.<br><b>Always consult a qualified engineer or specialist for field installation.</b>',
                 resetBtn: "⚠️ Reset Data", 
                 serviceAppsTitle: "🛠️ Service Apps",
@@ -1148,13 +1141,13 @@
                 document.getElementById('panelsOutput').innerText = numberOfPanels;
                 const panelWordEl = document.querySelector('[data-i18n="panelsWord"]');
                 if (panelWordEl) panelWordEl.innerText = unitText;
-                document.getElementById('detailsOutput').innerText = `${t.totalPowerPre} ${Math.round(totalPanelPower)} ${t.wattWord}`;
+                let totalActualPanelsWatt = numberOfPanels * panelWatts; let maxChargeCurrent = totalActualPanelsWatt / voltage; let bmsDelayFactor = (dodRaw >= 75) ? 1.05 : 1.20; let chargingTime = (totalEnergyWh / (totalActualPanelsWatt * systemEfficiency)) * bmsDelayFactor; document.getElementById('detailsOutput').innerHTML = `${t.totalPowerPre} ${Math.round(totalPanelPower)} ${t.wattWord}<br>${t.chargeCurrentMsg} ~${maxChargeCurrent.toFixed(1)} ${t.ampWord}<br>${t.chargeTimeMsg} ~${chargingTime.toFixed(1)} ${t.hoursWord}`;
             } else {
                 if (panelNote) panelNote.style.display = 'none';
                 document.getElementById('panelsOutput').innerText = 0;
                 const panelWordEl = document.querySelector('[data-i18n="panelsWord"]');
                 if (panelWordEl) panelWordEl.innerText = t.panelsWord;
-                document.getElementById('detailsOutput').innerText = `${t.totalPowerPre} 0 ${t.wattWord}`;
+                document.getElementById('detailsOutput').innerHTML = `${t.totalPowerPre} 0 ${t.wattWord}`;
             }
 
             saveToStorage();
@@ -1169,7 +1162,7 @@
         checkAppVersion();
 
         const urlParams = new URLSearchParams(window.location.search); const CURRENT_VERSION_CODE = parseInt(urlParams.get('apk_ver')) || 999;
-        let globalUpdateUrl = "https://play.google.com/store/apps/details?id=com.mazen.Solar.Panels.Calc";
+        let globalUpdateUrl = "https://play.google.com/store/apps/details?id=com.mazen.Solar.Panel.Calc";
 
         async function checkAppVersion() {
             try {
