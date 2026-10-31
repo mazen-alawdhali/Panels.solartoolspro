@@ -6,8 +6,8 @@
     <title>حاسبة الألواح الشمسية</title>
     
     <!-- إعدادات SEO الاحترافية والكلمات المفتاحية -->
-    <meta name="description" content="حاسبة الألواح الشمسية الاحترافية لحساب عدد الألواح اللازمة لشحن بطاريات الليثيوم والجل بدقة بناءً على السعة وساعات ذروة الشمس.">
-    <meta name="keywords" content="حاسبة الألواح الشمسية, حساب عدد الألواح الشمسية, طاقة شمسية اليمن, حساب البطاريات والألواح, بطاريات ليثيوم, شحن بطاريات الليثيوم, ساعات ذروة الشمس, طاقة متجددة, Solar Panels Calculator, Solar Panel Sizing, Lithium Battery Charging, Solar Energy Tool">
+    <meta name="description" content="حاسبة الألواح الشمسية الاحترافية لحساب عدد الألواح اللازمة لشحن بطاريات الليثيوم والجل بدقة، مع حساب زمن الشحن وتيار المنظومة بناءً على الكفاءة.">
+    <meta name="keywords" content="حاسبة الألواح الشمسية, زمن الشحن الفعلي, تيار الشحن المتوقع, طاقة شمسية اليمن, بطاريات ليثيوم, Solar Panels Calculator, Charging Time, Solar Energy Tool">
     
     <!-- Open Graph Social Tags -->
     <meta property="og:title" content="حاسبة الألواح الشمسية الاحترافية ⚡">
@@ -125,7 +125,7 @@
         .content { padding: 0 20px 20px; }
 
         .input-group { flex: 1; display: flex; flex-direction: column; min-width: 0; transition: all 0.3s ease; position: relative; }
-        label { display: flex; align-items: center; gap: 4px; margin-bottom: 6px; font-size: 12px; color: #94a3b8; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        label { display: flex; align-items: center; gap: 4px; margin-bottom: 6px; font-size: 12px; color: #94a3b8; font-weight: 600; white-space: normal; line-height: 1.2; word-break: break-word; }
         
         @media screen and (max-width: 360px) { label { font-size: 10.5px; } }
 
@@ -590,23 +590,21 @@
                 </div>
             </div>
 
-            <!-- الصف الرابع: المنطقة الجغرافية (نسبة الكفاءة) | نسبة تفريغ البطارية (DoD) -->
+            <!-- الصف الرابع: كفاءة المنظومة | نسبة تفريغ البطارية (DoD) -->
             <div class="flex-row">
                 <div class="input-group" id="efficiencyGroup">
-                    <label data-i18n="regionEfficiency">منطقة الاستخدام (نسبة الكفاءة):</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select-display" onclick="toggleDropdown('efficiencyDropdown')">
-                            <span class="select-spacer"></span>
-                            <span id="efficiencyDisplay" class="select-text" data-i18n="regionSanaa">مناطق معتدلة (85%)</span>
-                            <span class="select-arrow">▼</span>
-                        </div>
-                        <div class="custom-select-options" id="efficiencyDropdown">
-                            <div class="custom-option" onclick="selectEfficiency('0.85', 'regionSanaa')" data-i18n="regionSanaa">مناطق معتدلة (85%)</div>
-                            <div class="custom-option" onclick="selectEfficiency('0.75', 'regionAden')" data-i18n="regionAden">مناطق حارة (75%)</div>
-                        </div>
-                        <input type="hidden" id="efficiencyValue" value="0.85">
-                        <input type="hidden" id="efficiencyKey" value="regionSanaa">
+                    <label>
+                        <span data-i18n="effLabelText">كفاءة منظومة الشحن (٪):</span>
+                        <button type="button" class="hint-bulb-btn" onclick="toggleTooltip('effTooltip', event)" title="دليل كفاءة المنظومة">💡</button>
+                    </label>
+                    <div class="hint-tooltip" id="effTooltip">
+                        <div style="font-weight: 700; color: #38bdf8; margin-bottom: 8px; text-align: center;" data-i18n="effGuideTitle">دليل كفاءة المنظومة</div>
+                        <div style="margin-bottom: 6px; color: #e2e8f0;" data-i18n="effGuideMild">🔹 المناطق المعتدلة (الافتراضي): 85%</div>
+                        <div style="margin-bottom: 6px; color: #e2e8f0;" data-i18n="effGuideHot">🔹 المناطق الحارة والمغبرة: 75%</div>
+                        <div style="margin-bottom: 8px; color: #e2e8f0;" data-i18n="effGuideCustom">🔹 مخصص (متقدم): إدخال يدوي لتقدير الفواقد.</div>
+                        <div style="font-size: 10.5px; color: #94a3b8; line-height: 1.5;" data-i18n="effGuideNote">💡 ملاحظة: تشمل الكفاءة فواقد الحرارة، الأسلاك، ومنظم الشحن.</div>
                     </div>
+                    <input type="text" inputmode="numeric" id="efficiencyValue" placeholder="85%" value="85%" lang="en" onfocus="formatEffInput(this, true)" onblur="formatEffInput(this, false)">
                 </div>
 
                 <div class="input-group">
@@ -755,7 +753,7 @@
                 unitLabel: "وحدة القياس:", kwh: "كيلوواط (kWh)", wh: "واط (Wh)", ah: "أمبير (Ah)", 
                 sysVoltage: "جهد المنظومة (V):", v12: "12 فولت", v24: "24 فولت", v48: "48 فولت", 
                 panelPower: "قدرة اللوح الواحد (W):", sunHours: "ساعات ذروة الشمس:", 
-                regionEfficiency: "منطقة الاستخدام (نسبة الكفاءة):", regionSanaa: "مناطق معتدلة (85%)", regionAden: "مناطق حارة (75%)",
+                effLabelText: "كفاءة منظومة الشحن (٪):", effGuideTitle: "دليل كفاءة المنظومة", effGuideMild: "🔹 المناطق المعتدلة (الافتراضي): 85%", effGuideHot: "🔹 المناطق الحارة والمغبرة: 75%", effGuideCustom: "🔹 مخصص (متقدم): إدخال يدوي لتقدير الفواقد.", effGuideNote: "💡 ملاحظة: تشمل الكفاءة فواقد الحرارة، الأسلاك، ومنظم الشحن.",
                 dodLabelText: "نسبة تفريغ البطارية (DoD):",
                 dodGuideTitle: "دليل نسبة التفريغ (DoD)",
                 dodGuideLithiumTitle: "نسبة التفريغ الموصى بها لبطارية الليثيوم :",
@@ -768,7 +766,7 @@
                 resultLabel: "عدد الألواح المطلوبة للشحن", 
                 panelsWord: "ألواح",
                 panelOne: "لوح واحد", panelTwo: "لوحان", panelPlural: "ألواح", panelSingle: "لوحاً",
-                totalPowerPre: "إجمالي القدرة المطلوبة:", wattWord: "واط", chargeCurrentMsg: "⚡ تيار الشحن المتوقع:", chargeTimeMsg: "⏱️ زمن الشحن الفعلي:", ampWord: "أمبير", hoursWord: "ساعات شمسية",
+                totalPowerPre: "إجمالي القدرة المطلوبة:", wattWord: "واط", chargeCurrentMsg: "⚡ تيار الشحن المتوقع:", chargeTimeMsg: "⏳ زمن الشحن الفعلي:", ampWord: "أمبير", hoursWord: "ساعات شمسية",
                 panelNoteMsg: '💡 <b>تنبيه هام:</b> هذه النتائج <b>تقديرية</b> لمساعدة الفنيين والمستخدمين في التخطيط المبدئي لشحن البطاريات فقط. لتصميم وتغذية الأحمال المنزلية يمكنك استخدام <a href="https://calc.solartoolspro.com" onclick="this.href=\'https://calc.solartoolspro.com?lang=\'+(localStorage.getItem(\'solar_panel_lang\')||\'ar\')" target="_blank" class="panel-note-link">حاسبة الطاقة الشمسية الذكية</a>.<br><b>مع ضرورة استشارة مهندس أو فني متخصص للتركيب الميداني.</b>',
                 resetBtn: "⚠️ تصفير البيانات", 
                 serviceAppsTitle: "🛠️ تطبيقات خدمية",
@@ -792,7 +790,7 @@
                 unitLabel: "Measurement Unit:", kwh: "Kilowatts (kWh)", wh: "Watts (Wh)", ah: "Amperes (Ah)", 
                 sysVoltage: "System Voltage (V):", v12: "12 Volts", v24: "24 Volts", v48: "48 Volts", 
                 panelPower: "Single Panel Power (W):", sunHours: "Peak Sun Hours:", 
-                regionEfficiency: "Geographic Region (Efficiency):", regionSanaa: "Mild Regions (85%)", regionAden: "Hot Regions (75%)",
+                effLabelText: "System Efficiency (%):", effGuideTitle: "Efficiency Guide", effGuideMild: "🔹 Mild Regions (Default): 85%", effGuideHot: "🔹 Hot & Dusty Regions: 75%", effGuideCustom: "🔹 Custom (Advanced): Manual input for estimated losses.", effGuideNote: "💡 Note: Efficiency accounts for heat, wiring, and controller losses.",
                 dodLabelText: "Battery DoD Rate:",
                 dodGuideTitle: "Depth of Discharge (DoD) Guide",
                 dodGuideLithiumTitle: "Recommended DoD for Lithium batteries:",
@@ -805,7 +803,7 @@
                 resultLabel: "Required Panels for Charging", 
                 panelsWord: "Panels",
                 panelOne: "Panel", panelTwo: "Panels", panelPlural: "Panels", panelSingle: "Panels",
-                totalPowerPre: "Total Required Power:", wattWord: "Watts", chargeCurrentMsg: "⚡ Expected Current:", chargeTimeMsg: "⏱️ Actual Charge Time:", ampWord: "Amps", hoursWord: "Sun Hours",
+                totalPowerPre: "Total Required Power:", wattWord: "Watts", chargeCurrentMsg: "⚡ Expected Current:", chargeTimeMsg: "⏳ Actual Charge Time:", ampWord: "Amps", hoursWord: "Sun Hours",
                 panelNoteMsg: '💡 <b>Important Note:</b> These results are <b>estimated</b> to assist technicians and users in initial battery charging planning only. For designing home loads, use the <a href="https://calc.solartoolspro.com" onclick="this.href=\'https://calc.solartoolspro.com?lang=\'+(localStorage.getItem(\'solar_panel_lang\')||\'ar\')" target="_blank" class="panel-note-link">Smart Solar Calculator</a>.<br><b>Always consult a qualified engineer or specialist for field installation.</b>',
                 resetBtn: "⚠️ Reset Data", 
                 serviceAppsTitle: "🛠️ Service Apps",
@@ -862,11 +860,9 @@
 
             const unitVal = document.getElementById('unitValue').value;
             const voltVal = document.getElementById('voltageValue').value;
-            const effKey = document.getElementById('efficiencyKey').value;
             
             document.getElementById('unitDisplay').innerText = t[unitVal];
             document.getElementById('voltDisplay').innerText = t["v" + voltVal];
-            document.getElementById('efficiencyDisplay').innerText = t[effKey];
             
             document.getElementById('authorName').innerText = t['authorName'];
             
@@ -885,6 +881,22 @@
                     val = 100;
                 }
                 input.value = `${val}%`;
+                calculate();
+            }
+        }
+
+        function formatEffInput(input, isFocused) {
+            if (!input) return;
+            let raw = input.value.replace(/[٠-٩]/g, d => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]);
+            if (isFocused) {
+                let val = raw.replace(/[^\d.]/g, '');
+                input.value = val;
+            } else {
+                let val = parseFloat(raw.replace(/[^\d.]/g, ''));
+                if (isNaN(val) || val <= 0 || val > 100) {
+                    val = 85;
+                }
+                if (val > 0 && val < 50) { val = 100 - val; } input.value = `${val}%`;
                 calculate();
             }
         }
@@ -931,14 +943,12 @@
             document.getElementById('sunHoursInput').value = 6;
             document.getElementById('unitValue').value = 'wh';
             document.getElementById('voltageValue').value = '48';
-            document.getElementById('efficiencyValue').value = '0.85';
-            document.getElementById('efficiencyKey').value = 'regionSanaa';
+            document.getElementById('efficiencyValue').value = '85%';
             document.getElementById('dodValue').value = '100%';
             
             const t = dict[currentLang];
             document.getElementById('unitDisplay').innerText = t['wh'];
             document.getElementById('voltDisplay').innerText = t['v48'];
-            document.getElementById('efficiencyDisplay').innerText = t['regionSanaa'];
 
             calculate();
             closeModal();
@@ -987,16 +997,6 @@
             calculate();
         }
 
-        function selectEfficiency(val, key) {
-            const t = dict[currentLang];
-            document.getElementById('efficiencyValue').value = val;
-            document.getElementById('efficiencyKey').value = key;
-            document.getElementById('efficiencyDisplay').innerText = t[key];
-            document.getElementById('efficiencyDropdown').classList.remove('show');
-            document.getElementById('efficiencyDropdown').closest('.custom-select-wrapper').style.zIndex = '1';
-            calculate();
-        }
-
         document.addEventListener('focusin', function(e) {
             if (e.target && e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) {
                 e.target.select();
@@ -1041,6 +1041,7 @@
         }
 
         document.getElementById('dodValue').addEventListener('input', calculate);
+        document.getElementById('efficiencyValue').addEventListener('input', calculate);
 
         function saveToStorage() {
             const data = {
@@ -1050,8 +1051,7 @@
                 count: document.getElementById('batteryCountInput').value,
                 panel: document.getElementById('panelInput').value,
                 sun: document.getElementById('sunHoursInput').value,
-                effVal: document.getElementById('efficiencyValue').value,
-                effKey: document.getElementById('efficiencyKey').value,
+                effText: document.getElementById('efficiencyValue').value,
                 dod: document.getElementById('dodValue').value
             };
             localStorage.setItem('solar_pro_save', JSON.stringify(data));
@@ -1071,8 +1071,11 @@
                         document.getElementById('unitValue').value = data.unit;
                     }
                     if(data.volt) document.getElementById('voltageValue').value = data.volt;
-                    if(data.effVal) document.getElementById('efficiencyValue').value = data.effVal;
-                    if(data.effKey) document.getElementById('efficiencyKey').value = data.effKey;
+                    if(data.effText) {
+                        document.getElementById('efficiencyValue').value = data.effText;
+                    } else if(data.effVal) {
+                        document.getElementById('efficiencyValue').value = `${parseFloat(data.effVal) * 100}%`;
+                    }
                     if(data.dod) document.getElementById('dodValue').value = data.dod;
                 } catch(e) { console.error("Error loading save data."); }
             } else {
@@ -1088,7 +1091,11 @@
             let sunHours = parseFloat(document.getElementById('sunHoursInput').value) || 0;
             let unit = document.getElementById('unitValue').value;
             let voltage = parseFloat(document.getElementById('voltageValue').value) || 48;
-            let systemEfficiency = parseFloat(document.getElementById('efficiencyValue').value) || 0.85;
+            
+            let effRawStr = document.getElementById('efficiencyValue').value.replace(/[٠-٩]/g, d => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]);
+            let effRaw = parseFloat(effRawStr.replace(/[^\d.]/g, '')) || 85;
+            if (isNaN(effRaw) || effRaw <= 0 || effRaw > 100) effRaw = 85; else if (effRaw > 0 && effRaw < 50) effRaw = 100 - effRaw;
+            let systemEfficiency = effRaw / 100;
 
             let dodRawStr = document.getElementById('dodValue').value.replace(/[٠-٩]/g, d => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]);
             let dodRaw = parseFloat(dodRawStr.replace(/[^\d.]/g, '')) || 100;
@@ -1162,7 +1169,7 @@
         checkAppVersion();
 
         const urlParams = new URLSearchParams(window.location.search); const CURRENT_VERSION_CODE = parseInt(urlParams.get('apk_ver')) || 999;
-        let globalUpdateUrl = "https://play.google.com/store/apps/details?id=com.mazen.Solar.Panel.Calc";
+        let globalUpdateUrl = "https://play.google.com/store/apps/details?id=com.mazen.Solar.Panels.Calc";
 
         async function checkAppVersion() {
             try {
