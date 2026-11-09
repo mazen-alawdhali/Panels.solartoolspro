@@ -1,4 +1,4 @@
-const CACHE_NAME = 'solar-calc-v1';
+const CACHE_NAME = 'solar-calc-v2';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -40,7 +40,7 @@ self.addEventListener('activate', (event) => {
 // حدث الجلب (Stale-While-Revalidate) - ممتاز للتحديثات التلقائية
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
+        caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
             const fetchPromise = fetch(event.request).then((networkResponse) => {
                 // تحديث الكاش بالنسخة الجديدة في الخلفية
                 caches.open(CACHE_NAME).then((cache) => {
