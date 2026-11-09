@@ -1,4 +1,4 @@
-const CACHE_NAME = 'solar-calc-v2';
+const CACHE_NAME = 'solar-calc-v3';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
