@@ -916,7 +916,7 @@
             const apiUrl = 'https://solar-calculator-pro.vercel.app/api/counter?app=panel_calculator';
 
             try {
-                const response = await fetch(apiUrl, { method: 'POST' });
+                const controller = new AbortController(); const timeoutId = setTimeout(() => controller.abort(), 3000); const response = await fetch(apiUrl, { method: 'POST', signal: controller.signal }); clearTimeout(timeoutId);
                 if (!response.ok) throw new Error("API Error");
                 const data = await response.json();
                 
@@ -1165,15 +1165,15 @@
 
         loadFromStorage();
         applyLanguage();
-        updateVisitorCount();
-        checkAppVersion();
+        setTimeout(() => { updateVisitorCount(); }, 400);
+        setTimeout(() => { checkAppVersion(); }, 800);
 
         const urlParams = new URLSearchParams(window.location.search); const CURRENT_VERSION_CODE = parseInt(urlParams.get('apk_ver')) || 999;
         let globalUpdateUrl = "https://play.google.com/store/apps/details?id=com.mazen.Solar.Panels.Calc";
 
         async function checkAppVersion() {
             try {
-                const response = await fetch('version.json?' + new Date().getTime());
+                const controller = new AbortController(); const timeoutId = setTimeout(() => controller.abort(), 3000); const response = await fetch('version.json?' + new Date().getTime(), { signal: controller.signal }); clearTimeout(timeoutId);
                 if (!response.ok) return;
                 const data = await response.json();
                 if (data.versionCode && data.versionCode > CURRENT_VERSION_CODE) {
