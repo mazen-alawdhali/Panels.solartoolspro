@@ -4,8 +4,6 @@ const NETWORK_TIMEOUT_MS = 3000;
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
-    '/header_balanced_sky_600w.webp',
-    '/preview.png',
     '/favicon.ico',
     '/favicon.svg',
     '/favicon-96x96.png',
