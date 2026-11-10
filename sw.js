@@ -1,58 +1,96 @@
-const CACHE_NAME = 'solar-calc-v3';
+const CACHE_NAME = 'solar-panels-v5';
+const NETWORK_TIMEOUT_MS = 3000;
+
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
-    '/site.webmanifest',
+    '/header_balanced_sky_600w.webp',
+    '/preview.png',
     '/favicon.ico',
     '/favicon.svg',
     '/favicon-96x96.png',
     '/apple-touch-icon.png',
-    '/web-app-manifest-192x192.png',
-    '/web-app-manifest-512x512.png'
+    '/site.webmanifest',
+    '/about.html',
+    '/privacy.html'
 ];
 
-// حدث التثبيت (Caching)
+// تثبيت الـ Service Worker وحفظ الملفات الأساسية في الكاش
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ASSETS_TO_CACHE);
-        })
+        }).then(() => self.skipWaiting())
     );
-    self.skipWaiting();
 });
 
-// حدث التفعيل (تنظيف الكاش القديم عند التحديث)
+// تفعيل الإصدار الجديد وحذف الكاش القديم تلقائياً
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CACHE_NAME) {
-                        return caches.delete(cacheName);
+                cacheNames.map((cache) => {
+                    if (cache !== CACHE_NAME) {
+                        return caches.delete(cache);
                     }
                 })
             );
-        })
+        }).then(() => self.clients.claim())
     );
-    self.clients.claim();
 });
 
-// حدث الجلب (Stale-While-Revalidate) - ممتاز للتحديثات التلقائية
+// استراتيجية Network-First مع مهلة 3 ثوانٍ والرجوع للكاش عند التأخير أو الأوفلاين
 self.addEventListener('fetch', (event) => {
+    // تتجاهل الطلبات الخارجية مثل APIs أو روابط تحليلات الزيارات
+    if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+        return;
+    }
+
     event.respondWith(
-        caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-            const fetchPromise = fetch(event.request).then((networkResponse) => {
-                // تحديث الكاش بالنسخة الجديدة في الخلفية
-                caches.open(CACHE_NAME).then((cache) => {
-                    cache.put(event.request, networkResponse.clone());
+        new Promise((resolve) => {
+            let isTimedOut = false;
+
+            // مؤقت المهلة (3 ثوانٍ)
+            const timeoutId = setTimeout(() => {
+                isTimedOut = true;
+                caches.match(event.request).then((cachedResponse) => {
+                    if (cachedResponse) {
+                        resolve(cachedResponse);
+                    }
                 });
-                return networkResponse;
+            }, NETWORK_TIMEOUT_MS);
+
+            // محاولة الجلب من الشبكة أولاً
+            fetch(event.request).then((networkResponse) => {
+                clearTimeout(timeoutId);
+
+                // إذا نجح الاتصال وكانت الاستجابة سليمة، نحدث الكاش ونرجع الملف الجديد
+                if (networkResponse && networkResponse.status === 200) {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+
+                    if (!isTimedOut) {
+                        resolve(networkResponse);
+                    }
+                } else {
+                    // إذا أرجع السيرفر خطأ، نرجع النسخة المحفوظة من الكاش
+                    if (!isTimedOut) {
+                        caches.match(event.request).then((cachedResponse) => {
+                            resolve(cachedResponse || networkResponse);
+                        });
+                    }
+                }
             }).catch(() => {
-                // في حال انقطاع النت، نتجاهل الخطأ لأننا سنعرض النسخة المخبأة
+                // في حالة انقطاع الشبكة (الأوفلاين) قبل انقضاء المهلة
+                clearTimeout(timeoutId);
+                if (!isTimedOut) {
+                    caches.match(event.request).then((cachedResponse) => {
+                        resolve(cachedResponse || new Response('Offline', { status: 503, statusText: 'Service Unavailable' }));
+                    });
+                }
             });
-            
-            // عرض النسخة المخبأة فوراً إن وجدت، وإلا جلبها من النت
-            return cachedResponse || fetchPromise;
         })
     );
 });
