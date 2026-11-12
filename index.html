@@ -916,7 +916,7 @@
             const apiUrl = 'https://solar-calculator-pro.vercel.app/api/counter?app=panel_calculator';
 
             try {
-                const controller = new AbortController(); const timeoutId = setTimeout(() => controller.abort(), 3000); const response = await fetch(apiUrl, { method: 'POST', signal: controller.signal }); clearTimeout(timeoutId);
+                const response = await fetch(apiUrl, { method: 'POST' });
                 if (!response.ok) throw new Error("API Error");
                 const data = await response.json();
                 
@@ -1173,7 +1173,7 @@
 
         async function checkAppVersion() {
             try {
-                const controller = new AbortController(); const timeoutId = setTimeout(() => controller.abort(), 3000); const response = await fetch('version.json?' + new Date().getTime(), { signal: controller.signal }); clearTimeout(timeoutId);
+                const response = await fetch('version.json?' + new Date().getTime());
                 if (!response.ok) return;
                 const data = await response.json();
                 if (data.versionCode && data.versionCode > CURRENT_VERSION_CODE) {
@@ -1199,7 +1199,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=update5')
+                navigator.serviceWorker.register('sw.js?v=update6')
                     .then(registration => {
                         console.log('SW Registered successfully');
                     })

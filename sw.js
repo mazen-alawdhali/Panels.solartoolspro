@@ -1,4 +1,4 @@
-const CACHE_NAME = 'solar-panels-v5';
+const CACHE_NAME = 'solar-panels-v6';
 const NETWORK_TIMEOUT_MS = 3000;
 
 const ASSETS_TO_CACHE = [
@@ -51,7 +51,7 @@ self.addEventListener('fetch', (event) => {
             // مؤقت المهلة (3 ثوانٍ)
             const timeoutId = setTimeout(() => {
                 isTimedOut = true;
-                caches.match(event.request).then((cachedResponse) => {
+                caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
                     if (cachedResponse) {
                         resolve(cachedResponse);
                     }
@@ -75,7 +75,7 @@ self.addEventListener('fetch', (event) => {
                 } else {
                     // إذا أرجع السيرفر خطأ، نرجع النسخة المحفوظة من الكاش
                     if (!isTimedOut) {
-                        caches.match(event.request).then((cachedResponse) => {
+                        caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
                             resolve(cachedResponse || networkResponse);
                         });
                     }
@@ -84,7 +84,7 @@ self.addEventListener('fetch', (event) => {
                 // في حالة انقطاع الشبكة (الأوفلاين) قبل انقضاء المهلة
                 clearTimeout(timeoutId);
                 if (!isTimedOut) {
-                    caches.match(event.request).then((cachedResponse) => {
+                    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
                         resolve(cachedResponse || new Response('Offline', { status: 503, statusText: 'Service Unavailable' }));
                     });
                 }
