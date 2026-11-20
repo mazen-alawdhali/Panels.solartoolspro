@@ -97,7 +97,7 @@ jobs:
           }
           EOF
 
-          bubblewrap update --manifest=twa-manifest.json
+          bubblewrap update --manifest=twa-manifest.json --appVersionName="${{ github.event.inputs.version_name }}" --skipVersionUpgrade
           chmod +x gradlew
           ./gradlew bundleRelease assembleRelease \
             -Pandroid.injected.signing.store.file="$(pwd)/signing.keystore" \
