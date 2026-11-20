@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       start_url:
-        description: 'رابط البداية والمسار (غيّر الرقم في النهاية مثل /?apk_ver=6)'
+        description: 'رابط البداية والمسار (غيّر الرقم في النهاية مثل /?apk_ver=8)'
         required: true
-        default: '/?apk_ver=6'
+        default: '/?apk_ver=8'
       version_code:
-        description: 'رقم Version Code لمتجر Google Play (الحالي 5، القادم 6)'
+        description: 'رقم Version Code لمتجر Google Play (الحالي 7، القادم 8)'
         required: true
-        default: '6'
+        default: '8'
       version_name:
         description: 'اسم الإصدار الظاهر للمستخدم (Version Name)'
         required: true
-        default: '6.0'
+        default: '8.0'
 
 jobs:
   build-twa:
@@ -57,7 +57,7 @@ jobs:
         run: |
           cat << 'EOF' > twa-manifest.json
           {
-            "packageId": "com.mazen.Solar.Panels.Calc",
+            "packageId": "com.mazen.Solar.Panel.Calc",
             "host": "panels.solartoolspro.com",
             "name": "حاسبة الألواح الشمسية",
             "launcherName": "حاسبة الألواح",
@@ -105,7 +105,7 @@ jobs:
 
       - name: Rename Output Files
         run: |
-          mv app/build/outputs/bundle/release/app-release.aab "com.mazen.Solar.Panels.Calc-v${{ github.event.inputs.version_code }}.aab"
+          mv app/build/outputs/bundle/release/app-release.aab "com.mazen.Solar.Panel.Calc-v${{ github.event.inputs.version_code }}.aab"
           mv app/build/outputs/apk/release/app-release.apk "حاسبة-الألواح-الشمسية-v${{ github.event.inputs.version_code }}.apk"
 
       - name: Upload Signed AAB & APK
