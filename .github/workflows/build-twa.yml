@@ -57,7 +57,7 @@ jobs:
         run: |
           cat << 'EOF' > twa-manifest.json
           {
-            "packageId": "com.mazen.Solar.Panel.Calc",
+            "packageId": "com.mazen.Solar.Panels.Calc",
             "host": "panels.solartoolspro.com",
             "name": "حاسبة الألواح الشمسية",
             "launcherName": "حاسبة الألواح",
