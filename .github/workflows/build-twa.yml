@@ -57,7 +57,7 @@ jobs:
         run: |
           cat << 'EOF' > twa-manifest.json
           {
-            "packageId": "com.mazen.Solar.Panels.Calc",
+            "packageId": "com.mazen.Solar.Panel.Calc2",
             "host": "panels.solartoolspro.com",
             "name": "حاسبة الألواح الشمسية",
             "launcherName": "حاسبة الألواح",
@@ -71,6 +71,7 @@ jobs:
             "enableNotifications": true,
             "startUrl": "${{ github.event.inputs.start_url }}",
             "iconUrl": "https://panels.solartoolspro.com/web-app-manifest-512x512.png",
+            "maskableIconUrl": "https://panels.solartoolspro.com/web-app-manifest-512x512.png",
             "splashScreenFadeOutDuration": 300,
             "signingKey": {
               "path": "./signing.keystore",
