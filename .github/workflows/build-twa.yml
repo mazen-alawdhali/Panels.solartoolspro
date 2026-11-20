@@ -14,7 +14,7 @@ on:
       version_name:
         description: 'اسم الإصدار الظاهر للمستخدم (Version Name)'
         required: true
-        default: '1.0.8'
+        default: '8'
 
 jobs:
   build-twa:
@@ -32,20 +32,28 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Accept Android SDK Licenses
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
-
       - name: Install Bubblewrap CLI
         run: npm install -g @bubblewrap/cli
+
+      - name: Configure Bubblewrap Paths (No Interactive Prompts)
+        run: |
+          mkdir -p ~/.bubblewrap
+          cat << EOF > ~/.bubblewrap/config.json
+          {
+            "jdkPath": "$JAVA_HOME",
+            "androidSdkPath": "$ANDROID_HOME"
+          }
+          EOF
 
       - name: Decode Signing Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > signing.keystore
 
-      - name: Generate TWA Manifest & Build Project
+      - name: Generate TWA Project & Build Signed AAB + APK
         env:
-          BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           cat << 'EOF' > twa-manifest.json
           {
@@ -89,13 +97,18 @@ jobs:
           }
           EOF
 
-          yes | bubblewrap update --manifest=twa-manifest.json
-          printf "%s\n%s\n" "$BUBBLEWRAP_KEYSTORE_PASSWORD" "$BUBBLEWRAP_KEY_PASSWORD" | bubblewrap build --skipPwaValidation
+          bubblewrap update --manifest=twa-manifest.json
+          chmod +x gradlew
+          ./gradlew bundleRelease assembleRelease \
+            -Pandroid.injected.signing.store.file="$(pwd)/signing.keystore" \
+            -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
+            -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
+            -Pandroid.injected.signing.key.password="$KEY_PASSWORD"
 
       - name: Rename Output Files
         run: |
-          mv app-release-bundle.aab "com.mazen.Solar.Panel.Calc-v${{ github.event.inputs.version_code }}.aab"
-          mv app-release-signed.apk "حاسبة-الألواح-الشمسية-v${{ github.event.inputs.version_code }}.apk"
+          mv app/build/outputs/bundle/release/app-release.aab "com.mazen.Solar.Panel.Calc-v${{ github.event.inputs.version_code }}.aab"
+          mv app/build/outputs/apk/release/app-release.apk "حاسبة-الألواح-الشمسية-v${{ github.event.inputs.version_code }}.apk"
 
       - name: Upload Signed AAB & APK
         uses: actions/upload-artifact@v4
