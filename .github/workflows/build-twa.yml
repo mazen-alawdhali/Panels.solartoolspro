@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       start_url:
-        description: 'رابط البداية والمسار (غيّر الرقم في النهاية مثل /?apk_ver=8)'
+        description: 'رابط البداية والمسار (غيّر الرقم في النهاية مثل /?apk_ver=6)'
         required: true
-        default: '/?apk_ver=8'
+        default: '/?apk_ver=6'
       version_code:
-        description: 'رقم Version Code لمتجر Google Play (الحالي 7، القادم 8)'
+        description: 'رقم Version Code لمتجر Google Play (الحالي 5، القادم 6)'
         required: true
-        default: '8'
+        default: '6'
       version_name:
         description: 'اسم الإصدار الظاهر للمستخدم (Version Name)'
         required: true
-        default: '8'
+        default: '6.0'
 
 jobs:
   build-twa:
@@ -57,22 +57,20 @@ jobs:
         run: |
           cat << 'EOF' > twa-manifest.json
           {
-            "packageId": "com.mazen.Solar.Panel.Calc",
+            "packageId": "com.mazen.Solar.Panels.Calc",
             "host": "panels.solartoolspro.com",
             "name": "حاسبة الألواح الشمسية",
             "launcherName": "حاسبة الألواح",
             "display": "standalone",
-            "themeColor": "#010306",
-            "navigationColor": "#010306",
-            "navigationColorDark": "#010306",
-            "navigationDividerColor": "#010306",
-            "navigationDividerColorDark": "#010306",
+            "themeColor": "#0f172a",
+            "navigationColor": "#0f172a",
+            "navigationColorDark": "#0f172a",
+            "navigationDividerColor": "#0f172a",
+            "navigationDividerColorDark": "#0f172a",
             "backgroundColor": "#0f172a",
             "enableNotifications": true,
             "startUrl": "${{ github.event.inputs.start_url }}",
             "iconUrl": "https://panels.solartoolspro.com/web-app-manifest-512x512.png",
-            "maskableIconUrl": "https://panels.solartoolspro.com/web-app-manifest-512x512.png",
-            "monochromeIconUrl": "https://panels.solartoolspro.com/web-app-manifest-512x512.png",
             "splashScreenFadeOutDuration": 300,
             "signingKey": {
               "path": "./signing.keystore",
@@ -97,7 +95,7 @@ jobs:
           }
           EOF
 
-          bubblewrap update --manifest=twa-manifest.json --appVersionName="${{ github.event.inputs.version_name }}" --skipVersionUpgrade
+          bubblewrap update --manifest=twa-manifest.json --skipVersionUpgrade && sed -i 's/versionName .*/versionName "${{ github.event.inputs.version_name }}"/g' app/build.gradle
           chmod +x gradlew
           ./gradlew bundleRelease assembleRelease \
             -Pandroid.injected.signing.store.file="$(pwd)/signing.keystore" \
@@ -107,13 +105,13 @@ jobs:
 
       - name: Rename Output Files
         run: |
-          mv app/build/outputs/bundle/release/app-release.aab "com.mazen.Solar.Panel.Calc-v${{ github.event.inputs.version_code }}.aab"
+          mv app/build/outputs/bundle/release/app-release.aab "com.mazen.Solar.Panels.Calc-v${{ github.event.inputs.version_code }}.aab"
           mv app/build/outputs/apk/release/app-release.apk "حاسبة-الألواح-الشمسية-v${{ github.event.inputs.version_code }}.apk"
 
       - name: Upload Signed AAB & APK
         uses: actions/upload-artifact@v4
         with:
-          name: Solar-Panels-Package-v${{ github.event.inputs.version_code }}
+          name: Solar-Panels-Calculator-Package-v${{ github.event.inputs.version_code }}
           path: |
             ./*.aab
             ./*.apk
