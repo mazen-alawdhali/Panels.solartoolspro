@@ -1100,7 +1100,7 @@
             let dodRawStr = document.getElementById('dodValue').value.replace(/[٠-٩]/g, d => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]);
             let dodRaw = parseFloat(dodRawStr.replace(/[^\d.]/g, '')) || 100;
             if (isNaN(dodRaw) || dodRaw <= 0) dodRaw = 100;
-            const dodFactor = dodRaw / 100;
+            const dodFactor = dodRaw / 100; const dodEl = document.getElementById('dodValue'); if (dodEl) { const gradDir = currentLang === 'ar' ? 'to left' : 'to right'; const dodPct = Math.min(100, Math.max(0, dodRaw)); dodEl.style.backgroundImage = `repeating-linear-gradient(to right, transparent 0, transparent calc(10% - 1.5px), rgba(2, 6, 23, 0.85) calc(10% - 1.5px), rgba(2, 6, 23, 0.85) 10%), linear-gradient(${gradDir}, rgba(56, 189, 248, 0.18) 0%, rgba(30, 41, 59, 0.92) ${dodPct}%, #0f172a ${dodPct}%)`; dodEl.style.borderColor = 'rgba(56, 189, 248, 0.32)'; dodEl.style.boxShadow = 'inset 0 1px 2px rgba(255, 255, 255, 0.1)'; }
 
             let grossEnergyWh = (unit === 'kwh') ? (singleCapacity * 1000 * battCount) : 
                                 (unit === 'wh') ? (singleCapacity * battCount) : 
