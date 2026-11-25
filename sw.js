@@ -1,4 +1,4 @@
-const CACHE_NAME = 'solar-panels-v7';
+const CACHE_NAME = 'solar-panels-v8';
 const NETWORK_TIMEOUT_MS = 3000;
 
 const ASSETS_TO_CACHE = [

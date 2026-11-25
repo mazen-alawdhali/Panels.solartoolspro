@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <title id="pageTitle">سياسة الخصوصية - حاسبة الألواح الشمسية</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <style>
         * {
             box-sizing: border-box;
@@ -15,11 +17,11 @@
             background-color: #0f172a;
             color: #e2e8f0;
             margin: 0;
-            padding: 20px 12px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            line-height: 1.8;
+            line-height: 1.6;
             transition: all 0.3s ease;
         }
         .container {
@@ -27,143 +29,165 @@
             max-width: 650px;
             background-color: #1e293b;
             border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-            padding: 28px 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+            padding-bottom: 24px;
             position: relative;
-            border: 1px solid rgba(16, 185, 129, 0.25);
+            border: 1px solid #334155;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.55), rgba(3, 105, 161, 0.65));
+            text-align: center;
+            padding: 40px 16px 20px 16px;
+            position: relative;
+            border-bottom: 1px solid #334155;
         }
         .lang-toggle {
             position: absolute;
             top: 16px;
             left: 16px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             color: white;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
-            backdrop-filter: blur(4px);
             transition: 0.2s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            backdrop-filter: blur(4px);
             z-index: 10;
+            font-family: inherit;
         }
         html[dir="ltr"] .lang-toggle {
             left: auto;
             right: 16px;
         }
         .lang-toggle:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: #10b981;
-        }
-        .header {
-            text-align: center;
-            padding-top: 10px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 16px;
+            background: rgba(15, 23, 42, 0.9);
+            border-color: #38bdf8;
         }
         .main-title {
-            color: #10b981;
-            font-size: 21px;
-            font-weight: 800;
+            color: #38bdf8;
+            font-size: 22px;
+            font-weight: 900;
             margin: 0 0 6px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.35);
         }
         .subtitle {
-            color: #94a3b8;
-            font-size: 12.5px;
+            color: #bae6fd;
+            font-size: 13px;
+            font-weight: 600;
             margin: 0;
         }
+        .content-body {
+            padding: 20px;
+        }
         .highlight-box {
-            background-color: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 14px;
-            padding: 16px;
-            margin: 20px 0;
+            background-color: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 18px 0;
             font-size: 13.5px;
             color: #e2e8f0;
         }
         html[dir="rtl"] .highlight-box {
-            border-right: 4px solid #10b981;
+            border-right: 4px solid #38bdf8;
         }
         html[dir="ltr"] .highlight-box {
-            border-left: 4px solid #10b981;
+            border-left: 4px solid #38bdf8;
         }
         h2 {
             color: #38bdf8;
-            font-size: 15.5px;
+            font-size: 16px;
             font-weight: 700;
-            margin-top: 22px;
+            margin-top: 20px;
             margin-bottom: 8px;
         }
         p {
-            font-size: 14px;
+            font-size: 13.5px;
             color: #cbd5e1;
             margin-top: 0;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
-        .footer {
+        .footer-nav {
             text-align: center;
-            margin-top: 28px;
-            padding-top: 16px;
-            border-top: 1px solid #334155;
-            font-size: 13px;
-            color: #64748b;
-        }
-        .author-name {
-            color: #10b981;
-            font-weight: bold;
+            padding: 16px 16px 0 16px;
         }
         .back-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-top: 16px;
+            justify-content: center;
+            gap: 8px;
+            background-color: #0f172a;
             color: #38bdf8;
+            border: 1.5px solid #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.28);
+            padding: 11px 24px;
+            border-radius: 12px;
             text-decoration: none;
             font-size: 13.5px;
-            font-weight: 600;
-            transition: 0.2s;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
         }
         .back-btn:hover {
-            color: #10b981;
+            background-color: rgba(56, 189, 248, 0.15);
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+            color: #7dd3fc;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            padding: 16px 16px 0 16px;
+            border-top: 1px solid #334155;
+            font-size: 12.5px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        .app-title-footer {
+            color: #38bdf8;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <button class="lang-toggle" onclick="toggleLanguage()" id="langBtn">EN <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg></button>
-
     <div class="header">
+        <button class="lang-toggle" onclick="toggleLanguage()" id="langBtn">EN <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></button>
         <h1 class="main-title" data-i18n="title">سياسة الخصوصية</h1>
         <p class="subtitle" data-i18n="subtitle">تاريخ آخر تحديث: 8 سبتمبر 2026</p>
     </div>
 
-    <p data-i18n="intro">إن حماية خصوصيتك أمر أساسي بالنسبة لنا. تم تصميم تطبيق <strong>حاسبة الألواح الشمسية</strong> ليعمل كأداة هندسية آمنة ومستقلة بالكامل لتحديد حسابات وتوزيع المصفوفات الشمسية.</p>
+    <div class="content-body">
+        <p data-i18n="intro">إن حماية خصوصيتك أمر أساسي بالنسبة لنا. تم تصميم تطبيق <strong>حاسبة الألواح الشمسية</strong> ليعمل كأداة هندسية آمنة ومستقلة بالكامل لتحديد حسابات وتوزيع المصفوفات الشمسية.</p>
 
-    <div class="highlight-box" data-i18n="overview">
-        <strong>نظرة عامة على البيانات:</strong> هذا التطبيق لا يقوم بجمع، أو تخزين، أو مشاركة، أو معالجة أي بيانات شخصية، أو معلومات معرّفة بالمستخدم بأي شكل من الأشكال.
-    </div>
+        <div class="highlight-box" data-i18n="overview">
+            <strong>نظرة عامة على البيانات:</strong> هذا التطبيق لا يقوم بجمع، أو تخزين، أو مشاركة، أو معالجة أي بيانات شخصية، أو معلومات معرّفة بالمستخدم بأي شكل من الأشكال.
+        </div>
 
-    <h2><span data-i18n="sec1Title">1. جمع البيانات واستخدامها</span></h2>
-    <p data-i18n="sec1Text">جميع الحسابات والعمليات المتعلقة بقدرات الألواح الشمسية والربط الكهربائي تتم محلياً وفي الوقت الفعلي داخل جهازك فقط. لا يتطلب التطبيق أي تسجيل دخول، ولا يتصل بأي سيرفرات خارجية لمعالجة البيانات.</p>
+        <h2><span data-i18n="sec1Title">1. جمع البيانات واستخدامها</span></h2>
+        <p data-i18n="sec1Text">جميع الحسابات والعمليات المتعلقة بقدرات الألواح الشمسية والربط الكهربائي تتم محلياً وفي الوقت الفعلي داخل جهازك فقط. لا يتطلب التطبيق أي تسجيل دخول، ولا يتصل بأي سيرفرات خارجية لمعالجة البيانات.</p>
 
-    <h2><span data-i18n="sec2Title">2. الأذونات</span></h2>
-    <p data-i18n="sec2Text">لا يطلب التطبيق أي أذونات وصول حساسة داخل نظام أندرويد أو المتصفح.</p>
+        <h2><span data-i18n="sec2Title">2. الأذونات</span></h2>
+        <p data-i18n="sec2Text">لا يطلب التطبيق أي أذونات وصول حساسة داخل نظام أندرويد أو المتصفح.</p>
 
-    <h2><span data-i18n="sec3Title">3. التواصل معنا</span></h2>
-    <p data-i18n="sec3Text">إذا كان لديك أي استفسارات حول سياسة الخصوصية، يمكنك التواصل معنا عبر وسائل التواصل المتاحة داخل التطبيق.</p>
+        <h2><span data-i18n="sec3Title">3. التواصل معنا</span></h2>
+        <p data-i18n="sec3Text">إذا كان لديك أي استفسارات حول سياسة الخصوصية، يمكنك التواصل معنا عبر وسائل التواصل المتاحة داخل التطبيق.</p>
 
-    <div style="text-align: center;">
-        <a href="index.html" onclick="if(window.history.length > 1 && document.referrer){ window.history.back(); return false; }" class="back-btn" data-i18n="backBtn">← العودة للتطبيق</a>
-    </div>
+        <div class="footer-nav">
+            <a href="index.html" onclick="return goBackToApp(event);" class="back-btn" data-i18n="backBtn">← العودة للتطبيق</a>
+        </div>
 
-    <div class="footer">
-        <p style="margin:0;" data-i18n="copyright">تصميم وتطوير <span class="author-name">مازن العوذلي</span> &copy; 2026</p>
+        <footer class="footer">
+            <div data-i18n="copyright">جميع الحقوق محفوظة &copy; 2026 لـ<br><span class="app-title-footer">حاسبة الألواح الشمسية</span></div>
+        </footer>
     </div>
 </div>
 
@@ -182,7 +206,7 @@
             sec3Title: "3. التواصل معنا",
             sec3Text: "إذا كان لديك أي استفسارات حول سياسة الخصوصية، يمكنك التواصل معنا عبر وسائل التواصل المتاحة داخل التطبيق.",
             backBtn: "← العودة للتطبيق",
-            copyright: 'تصميم وتطوير <span class="author-name">مازن العوذلي</span> &copy; 2026'
+            copyright: 'جميع الحقوق محفوظة &copy; 2026 لـ<br><span class="app-title-footer">حاسبة الألواح الشمسية</span>'
         },
         en: {
             pageTitle: "Privacy Policy - Solar Panel Calculator",
@@ -196,18 +220,34 @@
             sec2Text: "The application does not request any sensitive permissions on Android or the browser.",
             sec3Title: "3. Contact Us",
             sec3Text: "If you have any questions regarding this Privacy Policy, you can contact us through the social channels available in the app.",
-            backBtn: "← Back to Calculator",
-            copyright: 'Designed & Developed by <span class="author-name">Mazen Al-Awdhali</span> &copy; 2026'
+            backBtn: "← Back to App",
+            copyright: 'All Rights Reserved &copy; 2026 for<br><span class="app-title-footer">Solar Panel Calculator</span>'
         }
     };
 
     const urlParams = new URLSearchParams(window.location.search);
-    let currentLang = urlParams.get('lang') || localStorage.getItem('solar_panel_lang') || localStorage.getItem('panel_app_lang') || 'ar';
+    let currentLang = urlParams.get('lang') || localStorage.getItem('solar_panel_lang') || localStorage.getItem('panel_app_lang') || localStorage.getItem('solar_app_lang') || 'ar';
+
+    function goBackToApp(event) {
+        if (event) event.preventDefault();
+        try { window.close(); } catch (e) {}
+        setTimeout(function() {
+            if (!window.closed) {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
+        }, 120);
+        return false;
+    }
 
     function toggleLanguage() {
         currentLang = currentLang === 'ar' ? 'en' : 'ar';
         localStorage.setItem('solar_panel_lang', currentLang);
         localStorage.setItem('panel_app_lang', currentLang);
+        localStorage.setItem('solar_app_lang', currentLang);
         applyLanguage();
     }
 
@@ -217,7 +257,7 @@
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         document.getElementById('pageTitle').innerText = t.pageTitle;
 
-        const globeSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>';
+        const globeSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>';
         document.getElementById('langBtn').innerHTML = currentLang === 'ar' ? 'EN ' + globeSvg : 'AR ' + globeSvg;
 
         document.querySelectorAll('[data-i18n]').forEach(el => {
