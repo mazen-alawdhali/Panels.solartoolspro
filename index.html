@@ -1100,7 +1100,7 @@
             let dodRawStr = document.getElementById('dodValue').value.replace(/[٠-٩]/g, d => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]);
             let dodRaw = parseFloat(dodRawStr.replace(/[^\d.]/g, '')) || 100;
             if (isNaN(dodRaw) || dodRaw <= 0) dodRaw = 100;
-            const dodFactor = dodRaw / 100; const dodEl = document.getElementById('dodValue'); if (dodEl) { const gradDir = currentLang === 'ar' ? 'to left' : 'to right'; const dodPct = Math.min(100, Math.max(0, dodRaw)); const isGelRange = dodRaw <= 60; const fillCol = isGelRange ? 'rgba(245, 158, 11, 0.35)' : 'rgba(30, 41, 59, 0.95)'; dodEl.style.backgroundImage = `linear-gradient(${gradDir}, transparent ${dodPct}%, #0f172a ${dodPct}%), linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 100%), linear-gradient(${gradDir}, ${fillCol} 0%, ${fillCol} ${dodPct}%, #0f172a ${dodPct}%)`; dodEl.style.borderColor = ''; dodEl.style.boxShadow = ''; }
+            const dodFactor = dodRaw / 100; const dodEl = document.getElementById('dodValue'); if (dodEl) { const gradDir = currentLang === 'ar' ? 'to left' : 'to right'; const dodPct = Math.min(100, Math.max(0, dodRaw)); dodEl.style.backgroundImage = `linear-gradient(${gradDir}, transparent ${dodPct}%, #0f172a ${dodPct}%), linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 100%), linear-gradient(${gradDir}, rgba(30, 41, 59, 0.95) 0%, rgba(30, 41, 59, 0.95) ${dodPct}%, #0f172a ${dodPct}%)`; dodEl.style.borderColor = ''; dodEl.style.boxShadow = ''; }
 
             let grossEnergyWh = (unit === 'kwh') ? (singleCapacity * 1000 * battCount) : 
                                 (unit === 'wh') ? (singleCapacity * battCount) : 
